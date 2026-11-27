@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MET Jira Ops</title>
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="stylesheet" href="/static/ops.css?v={{ v }}" />
+  <script>document.documentElement.dataset.theme = localStorage.getItem('ops-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')</script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img src="/static/met-logo.png" alt="MET" />
+      <div>
+        <b>MET Jira Ops</b>
+        <small>{% for e in envs %}<a href="{{ e.url }}" target="_blank" rel="noopener">{{ e.label }} {{ e.url.split(':')[-1] }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</small>
+      </div>
+    </div>
+    <nav class="tabs" id="tabs">
+      <button data-tab="overview" class="active">Overview</button>
+      <button data-tab="usage">Usage</button>
+      <button data-tab="business">Business</button>
+      <button data-tab="ai">AI assistant</button>
+      <button data-tab="logs">Requests &amp; errors</button>
+      <button data-tab="system">System</button>
+    </nav>
+    <div class="spacer"></div>
+    <div class="segmented" id="env-switch" title="Environment for business, usage, AI and log data">
+      {% for e in envs %}<button data-env="{{ e.key }}" class="{{ 'active' if loop.first }}">{{ e.label }}</button>{% endfor %}
+    </div>
+    <span class="refresh" id="refresh-state">●</span>
+    <button class="btn ghost icon" id="theme-toggle" title="Toggle light/dark">☾</button>
+    <form method="post" action="/logout"><button class="btn ghost" title="Sign out">{{ user.display_name or user.username }} · Sign out</button></form>
+  </header>
+
+  <main>
+    <section data-panel="overview" class="panel active">
+      <div class="services" id="services"></div>
+      <div class="kpis" id="kpis"></div>
+      <div class="grid-2">
+        <div class="card"><div class="card-head"><h3>Online users</h3><div class="segmented small" id="overview-hours" title="Sampled every 15 s, 5-minute peak; also applies to the requests chart below"><button data-hours="6" class="active">6 h</button><button data-hours="24">24 h</button></div></div><div class="chart" id="chart-online-24h"></div></div>
+        <div class="card"><div class="card-head"><h3>Online now</h3><span class="muted small" id="online-caption"></span></div><div id="online-now" class="online-list"></div></div>
+      </div>
+      <div class="card"><div class="card-head"><h3>Production requests</h3><span class="muted small" id="requests-overview-caption">From the uvicorn access log</span></div><div class="chart" id="chart-requests-overview"></div></div>
+    </section>
+
+    <section data-panel="usage" class="panel">
+      <div class="toolbar">
+        <div class="segmented" id="usage-days"><button data-days="7">7 d</button><button data-days="30" class="active">30 d</button><button data-days="90">90 d</button></div>
+      </div>
+      <div class="card"><div class="card-head"><h3>Online trend</h3><div class="segmented small" id="presence-hours"><button data-hours="6" class="active">6 h</button><button data-hours="24">24 h</button><button data-hours="168">7 d</button><button data-hours="720">30 d</button></div></div><div class="chart" id="chart-presence"></div></div>
+      <div class="grid-2">
+        <div class="card"><div class="card-head"><h3>Daily users &amp; time</h3></div><div class="chart" id="chart-daily-usage"></div></div>
+        <div class="card"><div class="card-head"><h3>Time by page</h3></div><div class="chart" id="chart-pages"></div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card"><div class="card-head"><h3>Top users by time</h3></div><div id="leaderboard"></div></div>
+        <div class="card"><div class="card-head"><h3>Logins &amp; exports</h3></div><div class="chart short" id="chart-events"></div><div id="recent-events"></div></div>
+      </div>
+      <div class="card"><div class="card-head"><h3>Usage by department</h3><span class="muted small">Top-level AD departments; coverage = users / active AD accounts in the department</span></div><div id="dept-usage"></div></div>
+    </section>
+
+    <section data-panel="business" class="panel">
+      <div class="toolbar">
+        <div class="segmented" id="business-days"><button data-days="14">14 d</button><button data-days="30" class="active">30 d</button><button data-days="90">90 d</button></div>
+      </div>
+      <div class="grid-2">
+        <div class="card"><div class="card-head"><h3>Issues created &amp; resolved</h3></div><div class="chart" id="chart-created"></div></div>
+        <div class="card"><div class="card-head"><h3>Collaboration</h3><span class="muted small">Changes and comments</span></div><div class="chart" id="chart-activity"></div></div>
+      </div>
+      <div class="card"><div class="card-head"><h3>Projects</h3></div><div id="projects-table"></div></div>
+      <div class="grid-2">
+        <div class="card"><div class="card-head"><h3>Actions by type</h3></div><div class="chart" id="chart-actions"></div></div>
+        <div class="card"><div class="card-head"><h3>Most active members</h3></div><div id="actors"></div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card"><div class="card-head"><h3>Requests by department</h3><span class="muted small">By the reporter's top-level department</span></div><div id="requests-dept"></div></div>
+        <div class="card"><div class="card-head"><h3>Department headcount</h3><span class="muted small">Synced active AD accounts</span></div><div class="chart tall" id="chart-headcount"></div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card"><div class="card-head"><h3>AD org sync</h3></div><div id="sync-runs"></div></div>
+        <div class="card"><div class="card-head"><h3>Excel imports</h3></div><div id="imports"></div></div>
+      </div>
+    </section>
+
+    <section data-panel="ai" class="panel">
+      <div class="toolbar">
+        <div class="segmented" id="ai-days"><button data-days="7">7 d</button><button data-days="30" class="active">30 d</button><button data-days="90">90 d</button></div>
+      </div>
+      <div class="kpis" id="ai-kpis"></div>
+      <div class="grid-2">
+        <div class="card"><div class="card-head"><h3>Daily calls by feature</h3></div><div class="chart" id="chart-ai-calls"></div></div>
+        <div class="card"><div class="card-head"><h3>LLM latency (48 hours)</h3><span class="muted small">65:8001 /v1/models probe</span></div><div class="chart" id="chart-llm"></div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card"><div class="card-head"><h3>By feature</h3></div><div id="ai-kinds"></div></div>
+        <div class="card"><div class="card-head"><h3>Write confirmations</h3><span class="muted small">Actions proposed by the agent and user decisions</span></div><div id="ai-actions"></div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card"><div class="card-head"><h3>Top users</h3></div><div id="ai-users"></div></div>
+        <div class="card"><div class="card-head"><h3>Recent failures</h3></div><div id="ai-failures"></div></div>
+      </div>
+    </section>
+
+    <section data-panel="logs" class="panel">
+      <div class="toolbar">
+        <div class="segmented" id="logs-hours"><button data-hours="6" class="active">6 h</button><button data-hours="24">24 h</button><button data-hours="72">3 d</button><button data-hours="168">7 d</button></div>
+      </div>
+      <div class="kpis" id="logs-kpis"></div>
+      <div class="card"><div class="card-head"><h3>Requests</h3></div><div class="chart" id="chart-requests"></div></div>
+      <div class="grid-2">
+        <div class="card"><div class="card-head"><h3>Top endpoints</h3></div><div id="top-endpoints"></div></div>
+        <div class="card"><div class="card-head"><h3>5xx endpoints</h3></div><div id="error-endpoints"></div></div>
+      </div>
+      <div class="card"><div class="card-head"><h3>Error log</h3><span class="muted small" id="restarts"></span></div><div id="error-lines"></div></div>
+    </section>
+
+    <section data-panel="system" class="panel">
+      <div class="grid-2">
+        <div class="card"><div class="card-head"><h3>Host</h3></div><div id="host"></div></div>
+        <div class="card"><div class="card-head"><h3>Storage</h3></div><div id="storage"></div><h3 class="sub-head">MET AD (LDAP)</h3><div id="ldap"></div></div>
+      </div>
+      <div class="card"><div class="card-head"><h3>Probe latency (24 hours)</h3><span class="muted small">Every minute; gaps mean the probe failed</span></div><div class="chart" id="chart-probes"></div></div>
+      <div class="grid-2" id="db-tables"></div>
+    </section>
+  </main>
+
+  <script src="/static/echarts.min.js"></script>
+  <script src="/static/ops.js?v={{ v }}"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+[Unit]
+Description=MET Jira PostgreSQL 16 (127.0.0.1:5433)
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=@ROOT@/scripts/ops/pg-local.sh run
+ExecStop=@ROOT@/scripts/ops/pg-local.sh stop
+Restart=on-failure
+RestartSec=5
+KillMode=mixed
+KillSignal=SIGINT
+TimeoutStopSec=60
+
+[Install]
+WantedBy=default.target

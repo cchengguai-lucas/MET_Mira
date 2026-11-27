@@ -1,0 +1,283 @@
+/** Department template list, editor steps and template validation. */
+export const templateEditor: Record<string, string> = {
+  // Editor shell and autosave
+  已载入最新草稿: 'Loaded the latest draft',
+  '还有修改没有保存成功，确定放弃并关闭吗？': 'Some changes were not saved. Discard them and close?',
+  '发布 v{n}？发布后新建项目将使用此版本；已有项目保持原版本，需要时在项目设置中迁移。':
+    'Publish v{n}? New projects will use this version; existing projects keep their version and can be migrated in project settings.',
+  '已发布 v{n}': 'Published v{n}',
+  '放弃 v{n} 草稿的全部修改？之后可以从当前发布版本重新开始编辑。':
+    'Discard all changes in draft v{n}? You can start editing again from the published version.',
+  草稿已放弃: 'Draft discarded',
+  'v{n} 草稿': 'Draft v{n}',
+  '当前发布 v{n}': 'Published: v{n}',
+  上一步: 'Back',
+  '下一步：{step}': 'Next: {step}',
+  '发布 v{n}': 'Publish v{n}',
+  编辑步骤: 'Editor steps',
+  '这份草稿已在别处被修改，自动保存已暂停': 'This draft was changed elsewhere, so autosave is paused',
+  '可能是另一位管理员或你在另一个窗口中保存过。请选择保留哪一份：':
+    'Another admin, or you in another window, saved it first. Choose which version to keep:',
+  '载入最新草稿（放弃本窗口的修改）': 'Load the latest draft (discard changes in this window)',
+  用本窗口的内容覆盖: 'Overwrite with this window',
+  '正在保存…': 'Saving…',
+  '有修改，即将自动保存': 'Unsaved changes, autosaving shortly',
+  '自动保存已暂停：草稿已在别处被修改': 'Autosave paused: the draft was changed elsewhere',
+  '保存失败：{error}': 'Save failed: {error}',
+  重试: 'Retry',
+  '已保存 {time}': 'Saved {time}',
+  草稿已是最新: 'Draft is up to date',
+
+  // Shared controls
+  '已发布版本中使用的 Key 不能修改：项目数据按 Key 保存': 'Keys used in a published version cannot change: project data is stored by key',
+  上移: 'Move up',
+  下移: 'Move down',
+  '只能用小写字母、数字和下划线，且以字母开头': 'Use lowercase letters, digits and underscores, starting with a letter',
+  'Key 已存在': 'Key already exists',
+
+  // Overview
+  模板如何生效: 'How templates take effect',
+  编辑草稿: 'Edit the draft',
+  '你正在编辑 v{n} 草稿。修改会自动保存，但不会影响任何项目。':
+    'You are editing draft v{n}. Changes autosave but do not affect any project.',
+  '在「检查与发布」中校验通过后发布，成为当前版本。之后新建项目会使用它。':
+    'Publish from "Review & publish" once checks pass; it becomes the current version used by new projects.',
+  已有项目不变: 'Existing projects stay as they are',
+  '项目固定在创建或上次迁移时的版本，发布不会改动它们的数据和流程。':
+    'Projects are pinned to the version they were created with or last migrated to; publishing never changes their data or workflow.',
+  按需迁移项目: 'Migrate projects when needed',
+  '项目管理员在「项目设置 → 基本信息 → 更换模板」中映射状态、字段和角色后切换到新版本。':
+    'A project admin maps statuses, fields and roles in "Project settings → General → Change template" to switch to the new version.',
+  '模板 Key 创建后不可修改': 'The template key cannot change after creation',
+  '例如：适用于机械设计部门的图纸与试装流程': 'e.g. drawing and trial-assembly process for mechanical design',
+  模板说明已保存: 'Template description saved',
+  '说明属于模板本身，立即保存，不随版本发布。': 'The description belongs to the template itself; it saves immediately and is not versioned.',
+  待处理问题: 'Issues to fix',
+  可以发布: 'Ready to publish',
+
+  // Roles
+  '「{name}」正在被使用：{uses}。删除后这些引用会被清除，继续吗？': '"{name}" is used by: {uses}. Deleting it clears these references. Continue?',
+  '角色是成员在项目中的身份。项目管理员在「成员与角色」中给成员分配角色；分区可以指定由某个角色填写，状态审批也按角色会签。「项目管理员」角色必须保留，拥有项目内全部权限。':
+    'Roles are what members are in a project. Project admins assign them under "Members & roles"; a section can be filled in by a role, and status approvals are signed off by role. The "Project admin" role is required and has full project permissions.',
+  被使用于: 'Used by',
+  项目管理员角色不能删除: 'The project admin role cannot be deleted',
+  新角色: 'New role',
+
+  // Form
+  新分区: 'New section',
+  '问题详情按分区显示，每个分区是一组由同一批人填写的字段。可以编辑某分区的人 = 指定角色的成员 + 勾选的问题相关人；项目管理员始终可以编辑全部分区。':
+    'Issue details are shown by section; each section is a group of fields filled in by the same people. Who can edit a section = members with its role + the checked issue participants. Project admins can always edit every section.',
+  '通用字段（类型、状态、优先级、负责人、父任务、史诗、冲刺、标签、截止日期、故事点）由系统提供，不在这里配置。':
+    'General fields (type, status, priority, assignee, parent, epic, sprint, labels, due date, story points) are provided by the system and not configured here.',
+  '「{role}」角色成员': 'members with role "{role}"',
+  '该问题的{who}': "the issue's {who}",
+  新字段: 'New field',
+  '删除分区「{name}」会同时删除其中的 {n} 个字段，继续吗？': 'Deleting section "{name}" also deletes its {n} fields. Continue?',
+  '删除分区「{name}」？': 'Delete section "{name}"?',
+  分区名称: 'Section name',
+  删除分区: 'Delete section',
+  谁来填写: 'Filled in by',
+  不指定角色: 'No role',
+  以及该问题的: "plus the issue's",
+  '可编辑：{who}，以及项目管理员。': 'Editable by: {who}, and project admins.',
+  '未指定任何人：只有项目管理员可以编辑这个分区。': 'Nobody assigned: only project admins can edit this section.',
+  适用类型: 'Applies to',
+  '按分区分工填写主要用于「需求」；其他类型的问题由项目成员和相关人整体编辑。':
+    'Per-section ownership mainly applies to requirements; other issue types are edited as a whole by members and participants.',
+  这个分区还没有字段: 'This section has no fields yet',
+  '「{name}」已在发布版本中使用。删除后，项目迁移到新版本时需要决定这些数据如何处理（保留为历史数据或清空）。继续吗？':
+    '"{name}" is used in the published version. When projects migrate to the new version they must decide what to do with this data (keep as history or clear). Continue?',
+  '删除字段「{name}」？': 'Delete field "{name}"?',
+  '{n} 个选项': '{n} options',
+  未选类别: 'No category',
+  '不进 Excel': 'Not in Excel',
+  报表统计: 'In reports',
+  标题是必需的系统字段: 'Title is a required system field',
+  'Key（Excel、JQL 中使用 cf_Key）': 'Key (used as cf_Key in Excel and JQL)',
+  '系统字段的 Key 固定': 'System field keys are fixed',
+  '系统字段（类型固定）': 'System field (fixed type)',
+  '已发布字段改类型后，历史数据会在项目迁移时按新类型转换': 'Changing the type of a published field converts existing data when projects migrate',
+  所在分区: 'Section',
+  '别名（逗号分隔，用于识别 Excel 表头）': 'Aliases (comma-separated, used to match Excel headers)',
+  '例如：图纸编号, 图号': 'e.g. Drawing number, Dwg no',
+  选项: 'Options',
+  输入选项后回车: 'Type an option and press Enter',
+  主数据类别: 'Master data category',
+  '选择类别…': 'Choose a category…',
+  允许选择多个: 'Allow multiple',
+  '选项来自「管理后台 → 主数据」，停用的条目不会出现在新建选项中。':
+    'Options come from "Admin → Master data"; inactive entries are not offered for new values.',
+  问题离开第一个状态前必须填写: 'Must be filled in before the issue leaves its first status',
+  '标题创建时就必须填写，不能取消': 'A title is always required when creating an issue',
+  出现在导入导出表格中: 'Included in import/export spreadsheets',
+  在报表概览中统计取值分布: 'Value distribution shown in the reports overview',
+
+  // Statuses and workflow
+  '「{name}」用于 {n} 种问题类型的流程，删除后相关流转和门禁会一并移除，继续吗？':
+    '"{name}" is used in {n} issue type workflows; deleting it also removes related transitions and gates. Continue?',
+  '状态由所有问题类型共享，每种类型在「工作流」中选择自己经过的状态。顺序决定看板列的顺序，各类型流程中排在最前的状态是新问题的初始状态。类别决定统计口径：「已完成」类别计入完成，但名为「已驳回」的状态单独统计为驳回。':
+    'Statuses are shared by all issue types; each type picks the statuses it passes through under "Workflow". Order sets the board column order, and the first status in a type\'s workflow is where new issues start. Category drives metrics: "Done" counts as completed, except the Rejected status, which is counted separately.',
+  名称不能为空: 'Name cannot be empty',
+  已有同名状态: 'A status with this name already exists',
+  '{n} 种类型': '{n} types',
+  '新状态 {n}': 'New status {n}',
+  未设置: 'Not set',
+  '每种问题类型有独立的流程：勾选「从」某状态允许流转「到」哪些状态（行 → 列）。问题只能按勾选的路径一步一步流转，项目管理员也一样。没有出现在某类型流程中的状态，该类型的问题不会经过。':
+    'Each issue type has its own workflow: check which statuses each "from" status can move "to" (row → column). Issues can only move along checked paths, one step at a time — project admins included. Statuses not in a type\'s workflow are never used by that type.',
+  '每种问题类型有独立的流程。在示意图中从状态拖线到另一状态添加流转，或切换到矩阵勾选。问题只能按路径一步一步流转；未出现在流程中的状态，该类型不会经过。':
+    'Each issue type has its own workflow. Drag between statuses on the diagram to add transitions, or switch to the matrix. Issues move one step at a time along those paths; statuses not in the flow are unused by that type.',
+  '「{type}」还没有任何流转，请在下表中勾选。': '"{type}" has no transitions yet; check some in the table below.',
+  '「{type}」还没有任何流转，请在示意图中拖线或在矩阵中勾选。':
+    '"{type}" has no transitions yet; draw them on the diagram or check them in the matrix.',
+  '用「{from}」的流程覆盖「{to}」？': 'Replace the "{to}" workflow with "{from}"?',
+  '从其他类型复制…': 'Copy from another type…',
+  对所有含测试状态的类型生效: 'Applies to every type whose workflow has the test status',
+  问题处于: 'When an issue is in',
+  '时，测试人记录「通过」→ 自动流转到': ', a tester recording "Pass" moves it to',
+  '，记录「不通过」→ 自动流转到': ', and "Fail" moves it to',
+  '进入测试状态前必须指定测试人；三个状态都必须在流程中相连（测试状态能流转到通过和不通过状态）。':
+    'A tester must be set before entering the test status; the test status must be able to move to both the pass and fail statuses.',
+  '三个状态都不设置表示该模板没有测试闭环（如机械、生产模板）；要启用必须三个都设置。':
+    'Leave all three empty for templates without a test loop (e.g. mechanical, production); set all three to enable it.',
+
+  // Gates
+  '这里是新项目的默认门禁，项目管理员之后可以在「项目设置 → 状态与工作流」中调整。':
+    'These are the default gates for new projects; project admins can adjust them later in "Project settings → Statuses & workflow".',
+  '必填：进入该状态前这些字段必须有值。审批：进入该状态需要指定角色的成员批准，每个角色达到人数后系统自动流转；任何一人驳回即结束。':
+    'Required: these fields must have values before entering the status. Approval: members of the listed roles must approve; once every role reaches its count the issue moves automatically, and any single rejection ends the round.',
+  无门禁: 'No gate',
+  必填字段: 'Required fields',
+  '＋ 添加字段': '+ Add field',
+  通用字段: 'General fields',
+  审批: 'Approval',
+  需: 'needs',
+  人批准: 'approvals',
+  添加审批角色: 'Add approving role',
+
+  // Layout
+  '项目「列表」视图的默认列和顺序。用户可以在列表中自行隐藏列、调整列宽，这些个人设置保存在各自浏览器中。列按所属分区显示分组表头。':
+    'Default columns and order of the project List view. Users can hide columns and resize them; those personal settings stay in their browser. Columns are grouped under their section headers.',
+  分组: 'Group',
+  '宽度（px）': 'Width (px)',
+  '＋ 添加列…': '+ Add column…',
+
+  // Review & publish
+  '新增{label}：{items}': 'Added {label}: {items}',
+  '删除{label}：{items}': 'Removed {label}: {items}',
+  工作流有调整: 'Workflows changed',
+  默认门禁与审批有调整: 'Default gates and approvals changed',
+  列表布局有调整: 'List layout changed',
+  模板名称有调整: 'Template name changed',
+  放弃了草稿: 'Discarded the draft',
+  '发布前还需要处理 {n} 个问题': '{n} issues must be fixed before publishing',
+  '前往修改 →': 'Go fix →',
+  '检查通过，可以发布 v{n}': 'All checks passed; v{n} is ready to publish',
+  '与当前发布版本 v{n} 相比': 'Compared with published v{n}',
+  首次发布: 'First publication',
+  没有变化: 'No changes',
+  '该模板还没有发布过，发布后即可在新建项目时选择。': 'This template has never been published; once published it can be chosen for new projects.',
+  发布后会发生什么: 'What happens when you publish',
+  'v{n} 成为当前版本，新建项目时使用它（模板已停用时不可选）。': 'v{n} becomes the current version used by new projects (unless the template is disabled).',
+  '已经在使用旧版本的项目不受影响，需要时由项目管理员在项目设置中「更换模板」迁移。':
+    'Projects on older versions are unaffected; a project admin can migrate them via "Change template" in project settings.',
+  '发布后的版本不能再修改；之后再编辑会自动创建 v{n} 草稿。': 'A published version cannot be changed; further edits create draft v{n}.',
+  放弃草稿: 'Discard draft',
+  当前版本: 'Current version',
+
+  // Template list
+  '停用「{name}」？停用后新建项目不能再选择它，也不会被推荐；已在使用的 {n} 个项目不受影响。':
+    'Disable "{name}"? New projects can no longer choose it and it will not be recommended; the {n} projects using it are unaffected.',
+  '恢复「{name}」？恢复后新建项目可以再次选择它。': 'Restore "{name}"? New projects will be able to choose it again.',
+  '模板决定项目的角色、表单分区与字段、状态、各类型工作流、默认门禁和列表列。':
+    "A template defines a project's roles, form sections and fields, statuses, per-type workflows, default gates and list columns.",
+  '自动保存，不影响项目': 'autosaves, does not affect projects',
+  新建项目使用最新发布版本: 'new projects use the latest published version',
+  迁移项目: 'Migrate projects',
+  已有项目在项目设置中手动更换: 'existing projects switch manually in project settings',
+  内置: 'Built-in',
+  启用中: 'Enabled',
+  暂无说明: 'No description',
+  未发布: 'Unpublished',
+  使用项目: 'Projects',
+  '有未发布的 v{n} 草稿': 'Unpublished draft v{n}',
+  继续编辑草稿: 'Continue draft',
+  发布后才能复制: 'Publish before copying',
+  复制为新模板: 'Copy as new template',
+  '{name}（副本）': '{name} (copy)',
+  创建并开始编辑: 'Create and edit',
+  '例如：机械设计': 'e.g. Mechanical design',
+  '系统内部标识，创建后不可修改。': 'Internal identifier; it cannot change after creation.',
+  以哪个模板为起点: 'Start from',
+  '复制它当前发布版本的角色、表单、状态和流程，之后可以任意修改。':
+    'Copies the roles, form, statuses and workflows of its published version; you can change anything afterwards.',
+  '新建项目时，按项目负责人所在部门（逐级向上）预选推荐的模板。只影响默认选择，不会修改现有项目。':
+    "When creating a project, templates recommended for the lead's department (and its parents) are preselected. This only affects the default choice, never existing projects.",
+  '从上级部门继承：{names}': 'Inherited from parent departments: {names}',
+
+  // Steps and field kinds
+  '名称、说明和模板如何生效': 'Name, description and how templates take effect',
+  项目成员可以被分配的身份: 'Identities project members can be given',
+  表单: 'Form',
+  '分区、字段，以及谁来填写': 'Sections, fields and who fills them in',
+  问题会经过的状态及其类别: 'Statuses issues pass through and their categories',
+  各类型允许的流转与测试闭环: 'Allowed transitions per type and the test loop',
+  门禁与审批: 'Gates & approvals',
+  进入状态前的必填与会签: 'Required fields and sign-offs before entering a status',
+  项目列表视图的默认列: 'Default columns of the project list view',
+  检查与发布: 'Review & publish',
+  '校验、版本历史与审计': 'Checks, version history and audit',
+  单行文本: 'Single-line text',
+  '编号、名称等短文本': 'Short text such as numbers or names',
+  多行文本: 'Multi-line text',
+  '说明、结论等较长文本': 'Longer text such as notes or conclusions',
+  富文本: 'Rich text',
+  '支持格式、粘贴截图': 'Formatting and pasted screenshots',
+  下拉选项: 'Dropdown',
+  从固定选项中选择一个: 'Pick one of fixed options',
+  '从共享主数据（物料/产线/设备）中选择': 'Pick from shared master data (materials / lines / equipment)',
+  '从共享主数据（物料/产线/设备/服务）中选择': 'Pick from shared master data (materials / lines / equipment / services)',
+  数字: 'Number',
+  '是 / 否': 'Yes / No',
+  选择系统中的用户: 'Pick a user',
+  选择项目机台: 'Pick project machines',
+  系统字段: 'System field',
+  排序: 'Rank',
+  编号: 'Key',
+
+  // Validation
+  '分区「{name}」': 'Section "{name}"',
+  '「{status}」审批': '"{status}" approval',
+  请填写模板中文名称: 'Enter the template Chinese name',
+  '必须保留「项目管理员」(admin) 角色': 'The "Project admin" (admin) role is required',
+  '角色「{name}」的 Key 只能用小写字母、数字和下划线，且以字母开头':
+    'Role "{name}" key must use lowercase letters, digits and underscores, starting with a letter',
+  '角色 {key} 缺少中文名称': 'Role {key} has no Chinese name',
+  '角色 Key 不能重复': 'Role keys must be unique',
+  '分区 Key 不能重复': 'Section keys must be unique',
+  有分区缺少名称: 'A section has no name',
+  '分区「{name}」引用了已删除的角色': 'Section "{name}" refers to a deleted role',
+  '分区「{name}」没有勾选适用的问题类型': 'Section "{name}" has no issue types checked',
+  '字段 Key 不能重复': 'Field keys must be unique',
+  '字段「{name}」的 Key 无效': 'Field "{name}" has an invalid key',
+  '字段 {key} 缺少中文名称': 'Field {key} has no Chinese name',
+  '下拉字段「{name}」还没有选项': 'Dropdown field "{name}" has no options',
+  '主数据字段「{name}」需要选择主数据类别': 'Master data field "{name}" needs a category',
+  '字段「{name}」不属于任何分区': 'Field "{name}" is not in any section',
+  有字段同时出现在多个分区: 'A field appears in more than one section',
+  '字段别名不能与字段 Key 冲突或重复': 'Field aliases must be unique and not clash with field keys',
+  至少需要一个状态: 'At least one status is required',
+  有状态没有名称: 'A status has no name',
+  状态名称不能重复: 'Status names must be unique',
+  '至少需要一个「已完成」类别的状态': 'At least one status must be in the "Done" category',
+  '「{type}」还没有配置流转': '"{type}" has no transitions',
+  '「{type}」的流转引用了不存在的状态': '"{type}" transitions refer to a missing status',
+  '「{type}」从第一个状态出发无法到达完成状态': '"{type}" cannot reach a done status from its first status',
+  '测试闭环需要同时设置测试中、通过后、不通过后三个状态': 'The test loop needs the testing, pass and fail statuses all set',
+  '「{type}」中「{test}」必须能流转到「{pass}」和「{fail}」': 'In "{type}", "{test}" must be able to move to "{pass}" and "{fail}"',
+  '门禁引用了不存在的状态「{status}」': 'A gate refers to missing status "{status}"',
+  '「{status}」的必填字段包含已删除的字段': '"{status}" required fields include a deleted field',
+  '「{status}」的审批引用了已删除的角色': '"{status}" approval refers to a deleted role',
+  '「{status}」的会签人数必须在 1–20 之间': '"{status}" approval count must be between 1 and 20',
+  '列表列引用了不存在的字段 {field}': 'List column refers to missing field {field}',
+  '列「{field}」的宽度必须大于 0': 'Column "{field}" width must be greater than 0',
+}

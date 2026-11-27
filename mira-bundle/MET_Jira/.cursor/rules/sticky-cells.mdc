@@ -1,0 +1,25 @@
+---
+description: Sticky table headers and pinned columns must not let scrolled content bleed through
+globs: web/src/**/*.css,web/src/**/*.tsx
+alwaysApply: false
+---
+
+# Sticky headers and pinned columns
+
+Users run Windows at 125%/150% display scaling. There, sticky cells are snapped to device pixels separately from
+the content scrolling underneath, so any translucent pixel or hairline gap on a sticky edge shows that content as
+stray light dots or lines. This has happened twice in the list view (`.sheet`).
+
+For anything `position: sticky` that content scrolls under (table headers, pinned columns):
+
+- Backgrounds must be opaque. Set them through `--cell-bg` so skirts can reuse the colour.
+- Borders must be opaque: use `--grid-line`, never `--border` / `rgba(...)`. For a tinted line over a coloured cell
+  use `color-mix(in srgb, <ink> N%, var(--cell-bg))`.
+- Edges against the scroll container get a 1px skirt in the cell's own colour, e.g. `box-shadow: 0 -1px 0 var(--cell-bg)`
+  for a header, `-1px 0 0 var(--cell-bg)` for the first pinned column.
+- Where two sticky cells meet, the later one gets a 1px skirt in `--grid-line` over the shared border.
+- Watch selector specificity: `.sheet thead tr:first-child th` outranks `.sheet thead th.x`; a `box-shadow` set on a
+  more specific rule replaces every shadow from less specific ones.
+
+Verify in the browser at `device_scale_factor` 1.25 and 1.5 while scrolling by fractional offsets
+(e.g. `scrollLeft = i * 1.7333`), not only at 1×.

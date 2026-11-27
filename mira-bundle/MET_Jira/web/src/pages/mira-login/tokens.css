@@ -1,0 +1,62 @@
+/* Mira Login theme tokens.
+ *
+ * The panel and type values are the lattice theme's (`../lattice/tokens.css`)
+ * with a `--mira-` prefix, so the panel matches the lattice login exactly.
+ * The tree colours are this theme's own. */
+
+:root {
+    /* Backdrop -------------------------------------------------------- */
+    /* The canvas host and <body> share this; any gap between them would
+       flash a light seam on first paint. */
+    --mira-void: #05070b;
+
+    /* Glass panel ----------------------------------------------------- */
+    --mira-panel-width: min(22rem, 100vw);
+    --mira-panel-fill: rgba(36, 40, 48, 0.34);
+    /* Below the breakpoint the panel spans the full width, so it needs
+       more body to stay readable over the bright tree. */
+    --mira-panel-fill-narrow: rgba(36, 40, 48, 0.48);
+    --mira-panel-blur: blur(10px) saturate(1.1);
+    --mira-panel-padding: 2.5rem 1.5rem;
+
+    /* Capsule controls ------------------------------------------------ */
+    --mira-control-radius: 999px;
+    --mira-control-height: 2.75rem;
+    --mira-input-fill: rgba(5, 5, 5, 0.82);
+    --mira-button-fill: rgba(230, 234, 240, 0.28);
+    --mira-button-fill-hover: rgba(230, 234, 240, 0.4);
+    --mira-button-blur: blur(12px) saturate(1.2);
+
+    /* Type ------------------------------------------------------------ */
+    --mira-pixel-font: "Silkscreen", sans-serif;
+    --mira-hero-size: clamp(2.2rem, 5vw, 4.2rem);
+    --mira-hero-size-narrow: clamp(1.4rem, 6.5vw, 2.2rem);
+    --mira-mark-size: 2.6rem;
+    --mira-subtitle-size: .9rem;
+
+    --mira-text: #f8fafc;
+    --mira-text-input: #e8eef6;
+    --mira-text-button: #f4f6f8;
+    --mira-text-muted: #9a9a9a;
+    --mira-text-placeholder: #8a8a8a;
+    --mira-error: #ff9b8f;
+
+    /* Trace tree (also the JS `colors` override, as [r, g, b]) -------- */
+    /* Depth tones: seed (main goal), trunk, main branches, sub-branches,
+       twigs (sub-tasks). */
+    --mira-stage-0: rgb(240, 244, 252);
+    --mira-stage-1: rgb(150, 196, 248);
+    --mira-stage-2: rgb(166, 204, 248);
+    --mira-stage-3: rgb(190, 216, 249);
+    --mira-stage-4: rgb(222, 232, 250);
+    --mira-bond: rgb(168, 205, 245);
+    --mira-pulse: rgb(232, 244, 255);
+    --mira-done: rgb(255, 210, 160);
+    --mira-flash: rgb(255, 236, 214);
+
+    /* Layout ---------------------------------------------------------- */
+    /* Below this width the side strip becomes a full-width panel. Must
+       match CONF.sidePanelMinWidth in trace-background.js and the media
+       query in login.css. */
+    --mira-narrow-breakpoint: 900px;
+}

@@ -1,0 +1,18 @@
+/* Home greeting is always English; Caveat carries the handwritten look. */
+.home-greet {
+  margin: 0;
+  font-family: 'Caveat', 'Snell Roundhand', 'Segoe Print', cursive;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.35;
+}
+
+.home-view-switch {
+  flex: 0 0 auto;
+}
+
+.home-view-switch.segmented button {
+  padding: 3px 10px;
+  font-size: 12.5px;
+}

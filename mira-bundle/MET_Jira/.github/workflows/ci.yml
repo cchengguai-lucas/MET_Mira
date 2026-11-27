@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [staging, production]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: met_jira
+          POSTGRES_PASSWORD: met_jira_test
+          POSTGRES_DB: met_jira_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U met_jira -d met_jira_test"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      METJIRA_TEST_POSTGRES_URL: postgresql+psycopg://met_jira:met_jira_test@127.0.0.1:5432/met_jira_test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12', cache: pip }
+      - uses: actions/setup-node@v4
+        with: { node-version: '22', cache: npm, cache-dependency-path: web/package-lock.json }
+      - run: python -m pip install -e '.[dev]'
+      - run: python -m ruff check backend tests
+      - run: python -m pytest -q
+      - run: npm ci
+        working-directory: web
+      - run: npm run typecheck && npm test && npm run i18n:check && npm run build
+        working-directory: web
+      - run: npx playwright install --with-deps chromium
+        working-directory: web
+      - run: npx playwright test
+        working-directory: web

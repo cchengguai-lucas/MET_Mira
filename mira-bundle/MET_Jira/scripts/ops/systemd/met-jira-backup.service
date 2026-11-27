@@ -1,0 +1,10 @@
+[Unit]
+Description=MET Jira production backup (database + attachments)
+After=met-jira-postgres.service
+Requires=met-jira-postgres.service
+
+[Service]
+Type=oneshot
+ExecStart=@ROOT@/scripts/ops/backup.sh backup
+Nice=10
+IOSchedulingClass=idle

@@ -1,0 +1,22 @@
+[Unit]
+Description=MET Jira staging Nginx edge (0.0.0.0:8801)
+After=network.target met-jira-staging.service
+Wants=met-jira-staging.service
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+ExecStartPre=@NGINX_BIN@ -t -p %t/met-jira-staging-edge/ -c %t/met-jira-staging-edge/nginx.conf
+ExecStart=@NGINX_BIN@ -p %t/met-jira-staging-edge/ -c %t/met-jira-staging-edge/nginx.conf -g "daemon off;"
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=%t/met-jira-staging-edge %h/.local/state/met-jira-staging-edge
+TimeoutStopSec=20
+
+[Install]
+WantedBy=default.target

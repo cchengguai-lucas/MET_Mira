@@ -1,0 +1,180 @@
+/* Mira login: the lattice theme's glass form strip and pixel hero over the
+ * trace-tree canvas.
+ *
+ * Load tokens.css first. The panel rules are `../lattice/demo/demo.css`
+ * with the same values, scoped under `.mira-login` so the stylesheet can
+ * stay bundled after sign-in without restyling the app.
+ * `trace-background.js` paints the canvas behind this markup and treats
+ * `.mira-login-panel` as its no-drag region. */
+
+/* The host app self-hosts Silkscreen with @fontsource for offline use. */
+
+.mira-login,
+.mira-login * { box-sizing: border-box; }
+
+.mira-login {
+    min-height: 100vh;
+    background: var(--mira-void);
+    color: var(--mira-text);
+    font-family: "Source Sans Pro", system-ui, sans-serif;
+}
+
+/* Hero title: bottom-left, clear of the panel. Pointer events pass through
+   to the document so the canvas drag still works over it. */
+.mira-login-hero {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: min(22rem, 26vw);
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: .9rem;
+    padding: 0 clamp(1.25rem, 4vw, 3.5rem) clamp(1.5rem, 4vh, 2.75rem);
+    pointer-events: none;
+}
+
+.mira-login-subtitle {
+    margin: 0;
+    color: var(--mira-text-muted);
+    font-size: var(--mira-subtitle-size);
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, .8);
+}
+
+.mira-login-hero h1 {
+    margin: 0;
+    color: var(--mira-text);
+    font-family: var(--mira-pixel-font);
+    font-weight: 400;
+    font-size: var(--mira-hero-size);
+    line-height: 1.15;
+    letter-spacing: .04em;
+    text-shadow: 0 2px 28px rgba(0, 0, 0, .7);
+}
+
+/* Fixed glass strip on the right; the tree is centred on the whole window
+   and its outer branches pass behind this. */
+.mira-login-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    width: var(--mira-panel-width);
+    padding: var(--mira-panel-padding);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow-y: auto;
+    background: var(--mira-panel-fill);
+    backdrop-filter: var(--mira-panel-blur);
+    -webkit-backdrop-filter: var(--mira-panel-blur);
+}
+
+.mira-login-mark {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    width: 100%;
+    height: 4.5rem;
+    margin-bottom: 1.35rem;
+    color: #fff;
+    font-family: var(--mira-pixel-font);
+    font-weight: 400;
+    font-size: var(--mira-mark-size);
+    letter-spacing: .04em;
+    user-select: none;
+}
+
+.mira-login .field {
+    display: block;
+    margin-bottom: .9rem;
+}
+
+.mira-login .field > span:first-child {
+    display: block;
+    margin-bottom: .35rem;
+    font-size: .875rem;
+    color: var(--mira-text-muted);
+}
+
+/* Only the capsule is painted, so nothing squares off behind the ellipse. */
+.mira-login .capsule {
+    display: block;
+    overflow: hidden;
+    border-radius: var(--mira-control-radius);
+    background: var(--mira-input-fill);
+    backdrop-filter: var(--mira-panel-blur);
+    -webkit-backdrop-filter: var(--mira-panel-blur);
+}
+
+.mira-login .capsule input {
+    width: 100%;
+    min-height: var(--mira-control-height);
+    padding: 0 1rem;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--mira-text-input);
+    caret-color: var(--mira-text-input);
+    font: inherit;
+    font-size: 1rem;
+}
+
+.mira-login .capsule input::placeholder { color: var(--mira-text-placeholder); }
+
+.mira-login .hint {
+    margin: 0 0 .35rem;
+    font-size: .75rem;
+    line-height: 1.35;
+    color: var(--mira-text-muted);
+}
+
+.mira-login .error {
+    margin: .6rem 0 0;
+    font-size: .75rem;
+    line-height: 1.35;
+    color: var(--mira-error);
+}
+
+.mira-login button[type="submit"] {
+    width: 100%;
+    min-height: var(--mira-control-height);
+    border: none;
+    outline: none;
+    border-radius: var(--mira-control-radius);
+    background: var(--mira-button-fill);
+    backdrop-filter: var(--mira-button-blur);
+    -webkit-backdrop-filter: var(--mira-button-blur);
+    color: var(--mira-text-button);
+    font: inherit;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.mira-login button[type="submit"]:hover,
+.mira-login button[type="submit"]:focus-visible { background: var(--mira-button-fill-hover); }
+
+.mira-login button[type="submit"]:disabled { cursor: progress; }
+
+@media (max-width: 900px) {
+    .mira-login-panel {
+        width: 100vw;
+        padding: 10rem 1.5rem 2rem;
+        background: var(--mira-panel-fill-narrow);
+    }
+    .mira-login-hero {
+        right: 0;
+        z-index: 3;
+        padding-bottom: 1.4rem;
+    }
+    .mira-login-hero { gap: .6rem; }
+    .mira-login-hero h1 { font-size: var(--mira-hero-size-narrow); }
+    .mira-login-subtitle { font-size: .7rem; }
+}

@@ -1,0 +1,24 @@
+[Unit]
+Description=MET Jira outbox worker (@ENV@)
+After=network.target met-jira-postgres.service met-jira-@ENV@-pgbouncer.service
+Wants=met-jira-postgres.service
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+WorkingDirectory=@ROOT@
+EnvironmentFile=-@ROOT@/configs/ldap.env
+EnvironmentFile=-@ROOT@/.env
+EnvironmentFile=-%t/met-jira-@ENV@-edge/app.env
+Environment=METJIRA_DATA_DIR=@DATA_DIR@
+Environment=METJIRA_DEPLOY_ENV=@ENV@
+Environment=METJIRA_DB_POOL_SIZE=1
+Environment=METJIRA_DB_MAX_OVERFLOW=0
+ExecStart=/usr/bin/python3 -m backend.services.outbox
+Restart=always
+RestartSec=3
+KillMode=mixed
+TimeoutStopSec=30
+
+[Install]
+WantedBy=default.target

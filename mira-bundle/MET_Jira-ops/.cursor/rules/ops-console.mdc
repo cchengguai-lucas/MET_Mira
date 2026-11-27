@@ -1,0 +1,11 @@
+---
+description: Ops console stays read-only and separate from Mira app code
+alwaysApply: true
+---
+
+# Mira / MET Jira Ops
+
+- Independent repo on branch `main`; service `met-jira-ops.service`, default port 8803.
+- Never import MET Jira application code. Configure via `configs/ops.env` and environment overrides (`METJIRA_OPS_*`).
+- Reads presence under `~/.met_jira_ops/presence` and queries production/staging databases read-only (`met_jira_ops` role).
+- After code changes: `systemctl --user restart met-jira-ops.service`.

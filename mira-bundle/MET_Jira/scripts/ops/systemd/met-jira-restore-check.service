@@ -1,0 +1,10 @@
+[Unit]
+Description=MET Jira restore drill (newest backup into a scratch database)
+After=met-jira-postgres.service met-jira-backup.service
+Requires=met-jira-postgres.service
+
+[Service]
+Type=oneshot
+ExecStart=@ROOT@/scripts/ops/backup.sh restore-check
+Nice=10
+IOSchedulingClass=idle

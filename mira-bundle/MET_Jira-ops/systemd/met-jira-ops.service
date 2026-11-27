@@ -1,0 +1,18 @@
+[Unit]
+Description=MET Jira Ops console (8803)
+After=network.target met-jira-postgres.service met-jira.service met-jira-staging.service
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+WorkingDirectory=@ROOT@
+EnvironmentFile=@ROOT@/configs/ops.env
+Environment=METJIRA_OPS_HOME=%h/.met_jira_ops
+Environment=METJIRA_PRESENCE_ROOT=%h/.met_jira_ops/presence
+Environment=PYTHONPATH=@ROOT@
+ExecStart=/usr/bin/python3 -m uvicorn ops_console.main:app --host 0.0.0.0 --port 8803 --workers 1 --proxy-headers
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=default.target
