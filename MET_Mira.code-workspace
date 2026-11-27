@@ -1,0 +1,16 @@
+{
+  "folders": [
+    {
+      "name": "MET_Jira",
+      "path": "mira-bundle/MET_Jira"
+    },
+    {
+      "name": "MET_Jira-ops",
+      "path": "mira-bundle/MET_Jira-ops"
+    }
+  ],
+  "settings": {
+    "git.autoRepositoryDetection": true,
+    "git.repositoryScanMaxDepth": 3
+  }
+}

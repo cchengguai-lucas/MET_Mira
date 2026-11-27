@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily MET Jira production backup at 02:30
+
+[Timer]
+OnCalendar=*-*-* 02:30:00
+Persistent=true
+RandomizedDelaySec=120
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: met-jira-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: met_jira
+      POSTGRES_USER: met_jira
+      POSTGRES_PASSWORD: ${METJIRA_DB_PASSWORD:-met_jira_dev}
+      LANG: en_US.utf8
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - met-jira-pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U met_jira -d met_jira"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  met-jira-pg:

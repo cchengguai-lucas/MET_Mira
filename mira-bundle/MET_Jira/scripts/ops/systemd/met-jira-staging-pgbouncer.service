@@ -1,0 +1,23 @@
+[Unit]
+Description=MET Jira staging PgBouncer (127.0.0.1:6433)
+After=network.target met-jira-postgres.service
+Wants=met-jira-postgres.service
+Before=met-jira-staging.service met-jira-staging-outbox.service
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Environment=LD_LIBRARY_PATH=%h/.local/lib/met-jira-pgbouncer/usr/lib/x86_64-linux-gnu
+ExecStart=@PGBOUNCER_BIN@ %t/met-jira-staging-edge/pgbouncer.ini
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=%t/met-jira-staging-edge %h/.local/state/met-jira-staging-edge
+TimeoutStopSec=20
+
+[Install]
+WantedBy=default.target

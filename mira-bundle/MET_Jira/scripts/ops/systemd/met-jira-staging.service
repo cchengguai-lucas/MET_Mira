@@ -1,0 +1,31 @@
+[Unit]
+Description=MET Jira staging API (127.0.0.1:18801)
+After=network.target met-jira-postgres.service met-jira-staging-pgbouncer.service
+Wants=met-jira-postgres.service met-jira-staging-pgbouncer.service
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+WorkingDirectory=@ROOT@
+EnvironmentFile=-@ROOT@/configs/ldap.env
+EnvironmentFile=-@ROOT@/.env
+EnvironmentFile=-%t/met-jira-staging-edge/app.env
+Environment=METJIRA_DATA_DIR=%h/.met_jira_staging
+Environment=METJIRA_DEPLOY_ENV=staging
+Environment=METJIRA_LOGIN_ALLOWLIST=houcheng.fan,admin,ryan.fang
+Environment=METJIRA_PRESENCE_ROOT=%h/.met_jira_ops/presence
+Environment=METJIRA_SCHEDULER=false
+Environment=METJIRA_WEB_HOST=127.0.0.1
+Environment=METJIRA_WEB_PORT=18801
+Environment=METJIRA_WEB_WORKERS=2
+Environment=METJIRA_PROXY_TRUSTED_IPS=127.0.0.1
+Environment=METJIRA_DB_POOL_SIZE=3
+Environment=METJIRA_DB_MAX_OVERFLOW=1
+ExecStart=/usr/bin/python3 -m backend.serve
+Restart=always
+RestartSec=3
+KillMode=mixed
+TimeoutStopSec=20
+
+[Install]
+WantedBy=default.target

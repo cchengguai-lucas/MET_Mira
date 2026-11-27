@@ -1,0 +1,17 @@
+---
+description: Keep normal development on staging and release only on explicit request
+alwaysApply: true
+---
+
+# Production and Staging Workflow
+
+- `MET_Jira` is the production worktree on branch `production`. It is what `http://10.113.17.63:8800/` serves.
+- `MET_Jira-staging` is the test worktree on branch `staging`, served at `http://10.113.17.63:8801/`.
+- Make all normal code changes, tests, builds, and staging deployments only in the `staging` worktree. Deploy staging with `scripts/ops/deploy-staging.sh` (the backend also auto-reloads on save).
+- Treat `production` as read-only. Do not edit, merge, rebase, cherry-pick, or deploy it unless the user explicitly says to publish/release/sync to production.
+- When the user explicitly requests a release, **default to a fast release** (skip full pytest / e2e / typecheck / i18n / npm test). Quick path: commit staging if needed → related unit tests + ruff on touched files → `git merge --no-ff staging` in the production worktree → `python -m backend.ops bootstrap` → `npm run build` in `web/` → restart `met-jira.service` (and scheduler/outbox if needed) → wait for `/api/health`. Only run full `scripts/ops/release.sh` (or the full verification suite) when the user explicitly asks for 全量测试 / full verification.
+- Never copy files manually between worktrees; use Git commits and merges.
+- Production service: `met-jira.service`, port 8800, database `met_jira`, data `MET_Jira/data`.
+- Staging service: `met-jira-staging.service`, port 8801, database `met_jira_staging`, data `~/.met_jira_staging`, cookie `metjira_staging_session`, scheduler off.
+- Keep staging application data separate from production data. Both use the `met-jira-postgres.service` cluster on 127.0.0.1:5433.
+- Ops console: `MET_Jira-ops` (its own repo, branch `main`), `met-jira-ops.service`, port 8803. It reads production/staging presence files under `~/.met_jira_ops/presence` and queries the databases read-only; it never imports MET Jira code.

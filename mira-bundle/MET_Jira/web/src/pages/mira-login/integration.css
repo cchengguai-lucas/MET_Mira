@@ -1,0 +1,151 @@
+/*
+ * MET Jira host integration for the shared Mira login theme.
+ * Keep app-specific controls and accessibility fallbacks here so the
+ * shared login.css/tokens.css copies remain easy to synchronize.
+ */
+
+.mira-login-panel > form {
+  width: 100%;
+}
+
+.mira-login-toolbar {
+  position: absolute;
+  top: 1rem;
+  left: 1.25rem;
+  right: 1.25rem;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 2rem;
+}
+
+.mira-login-toolbar .spacer { flex: 1; }
+
+.mira-login-env {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #ff9f0a;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.mira-login-toolbar .segmented {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.mira-login-toolbar .segmented button {
+  color: rgba(248, 250, 252, 0.62);
+}
+
+.mira-login-toolbar .segmented button:hover:not(:disabled),
+.mira-login-toolbar .segmented button.active {
+  color: #f8fafc;
+}
+
+.mira-login-toolbar .segmented::before {
+  background: rgba(230, 234, 240, 0.22);
+  box-shadow: none;
+}
+
+.mira-login-password { position: relative; }
+.mira-login-password input { padding-right: 2.6rem; }
+
+.mira-login-eye {
+  position: absolute;
+  top: 50%;
+  right: 0.35rem;
+  width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--mira-text-muted);
+  cursor: pointer;
+}
+
+.mira-login-eye:hover,
+.mira-login-eye:focus-visible {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--mira-text);
+}
+
+.mira-login :where(input, button):focus-visible {
+  outline: 3px solid rgba(10, 132, 255, 0.35);
+  outline-offset: 2px;
+}
+
+.mira-login-remember {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.15rem 0 0.85rem;
+  color: var(--mira-text-muted);
+  font-size: 0.8rem;
+  line-height: 1.3;
+  cursor: pointer;
+  user-select: none;
+}
+
+.mira-login-remember input {
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  accent-color: #0a84ff;
+}
+
+.mira-login-note {
+  margin: 0.85rem 0 0;
+  color: var(--mira-text-muted);
+  font-size: 0.72rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.mira-login-foot {
+  position: absolute;
+  right: 1.25rem;
+  bottom: 1rem;
+  left: 1.25rem;
+  color: var(--mira-text-muted);
+  font-size: 0.68rem;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .mira-login-panel {
+    background: rgb(31, 35, 43);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .mira-login .capsule,
+  .mira-login button[type='submit'] {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .mira-login-panel {
+    border-left: 1px solid rgba(255, 255, 255, 0.35);
+  }
+
+  .mira-login .capsule {
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+  }
+
+  .mira-login .hint,
+  .mira-login-note,
+  .mira-login-foot,
+  .mira-login .field > span:first-child {
+    color: rgba(248, 250, 252, 0.82);
+  }
+}

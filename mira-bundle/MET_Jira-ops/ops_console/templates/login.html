@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign in · MET Jira Ops</title>
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="stylesheet" href="/static/ops.css" />
+</head>
+<body class="login-body">
+  <form class="login-card" method="post" action="/login">
+    <div class="brand">
+      <img src="/static/met-logo.png" alt="MET" />
+      <div>
+        <b>MET Jira Ops</b>
+        <small>Operations &amp; usage monitoring</small>
+      </div>
+    </div>
+    {% if ldap_label %}
+    <p class="muted">Sign in with your {{ ldap_label }} domain account (authorization required) or a MET Jira local admin account.</p>
+    {% else %}
+    <p class="muted">Sign in with a MET Jira production local admin account.</p>
+    {% endif %}
+    {% if error %}<div class="alert">{{ error }}</div>{% endif %}
+    <label>Username<input name="username" autocomplete="username" placeholder="{{ 'AD account, e.g. san.zhang' if ldap_label else 'admin' }}" value="{{ username or '' }}" autofocus required /></label>
+    <label>Password<input name="password" type="password" autocomplete="current-password" required /></label>
+    <button class="btn primary" type="submit">Sign in</button>
+  </form>
+</body>
+</html>

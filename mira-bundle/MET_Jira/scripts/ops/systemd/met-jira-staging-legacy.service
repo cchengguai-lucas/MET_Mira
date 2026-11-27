@@ -1,0 +1,24 @@
+[Unit]
+Description=MET Jira staging legacy direct web (0.0.0.0:8801)
+After=network.target met-jira-postgres.service
+Wants=met-jira-postgres.service
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+WorkingDirectory=@ROOT@
+EnvironmentFile=-@ROOT@/configs/ldap.env
+EnvironmentFile=-@ROOT@/.env
+Environment=METJIRA_DATA_DIR=%h/.met_jira_staging
+Environment=METJIRA_DEPLOY_ENV=staging
+Environment=METJIRA_LOGIN_ALLOWLIST=houcheng.fan,admin,ryan.fang
+Environment=METJIRA_PRESENCE_ROOT=%h/.met_jira_ops/presence
+Environment=METJIRA_SCHEDULER=false
+ExecStart=/usr/bin/python3 -m uvicorn backend.main:app --host 0.0.0.0 --port 8801 --proxy-headers --forwarded-allow-ips=127.0.0.1 --reload --reload-dir backend
+Restart=always
+RestartSec=3
+KillMode=mixed
+TimeoutStopSec=20
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,41 @@
+# Development log index
+
+Newest first. Max 100 lines. Format: `date | title | summary | day file`.
+
+- 2026-11-24 | Add attachment upload on the create-issue form | Let create form stage PDF/Word/Excel files and upload them with the new issue. | DLOG_2026-11-24.md
+- 2026-11-24 | Make issue attachments clearly support office documents | Clarify PDF/Word/Excel uploads, fix MIME guessing, and improve attachment badges/download. | DLOG_2026-11-24.md
+- 2026-11-23 | Ground AI polish, preserve newlines with screenshots, and widen polish toggle | Prevent AI polish hallucination on empty/image-only text, fix Enter newlines with screenshots, and make the whole AI polish pill clickable. | DLOG_2026-11-23.md
+- 2026-11-18 | Let AI delivery notes paste images and polish | Switch delivery_note to markdown with AttachmentMarkdownEditor polish. | DLOG_2026-11-18.md
+- 2026-11-18 | Add delivery notes to the AI template | Add a developer delivery-notes section and migrate lucas AI projects. | DLOG_2026-11-18.md
+- 2026-11-18 | Drop the AI plan button from the user workspace | Remove the user-home header AI button to match the other workspaces. | DLOG_2026-11-18.md
+- 2026-11-18 | Move portfolio scope filter into the project list | Put the scope filter in the left list and drop the header AI buttons. | DLOG_2026-11-18.md
+- 2026-11-10 | Ship ongoing workspaces and portfolio activity | Add delivery/ongoing modes, three home workspaces, and recent activity on manager towers. | DLOG_2026-11-10.md
+- 2026-11-09 | Ship member bulk roles and org path preview | Project admins can tell same-named departments apart and change roles for many members at once. | DLOG_2026-11-09.md
+- 2026-11-09 | Ship tester gates, software Jira key, and handoff mail | Testers alone enter testing statuses, software keys are required before Next, and handoff stages send mail. | DLOG_2026-11-09.md
+- 2026-11-08 | Ship scheme confirmation, software Jira follow-up, and project-scoped people | Electrical issues wait for scheme sign-off and software Jira, and person lists stay in the project. | DLOG_2026-11-08.md
+- 2026-11-06 | Electrical scheme confirmation | Electrical requirements need a three-party scheme confirmation before development. | DLOG_2026-11-06.md
+- 2026-11-04 | Let board columns grow with the card footer | Keep keys, dates, and avatars fully visible when a column is narrow. | DLOG_2026-11-04.md
+- 2026-11-04 | Keep the workflow canvas still during AI edits | Route the diagram in one row and stop the page jumping when a draft opens. | DLOG_2026-11-04.md
+- 2026-11-04 | Ship board columns, software readiness, and the issue form | Release the staging board, software gate, seven-day sign-in, and issue-form motion. | DLOG_2026-11-04.md
+- 2026-11-04 | Ease the software section open | Glide the software section and the same create-form reveals open and closed. | DLOG_2026-11-04.md
+- 2026-11-04 | Color the yes / no / unset control | Tint 是 green and 否 red on the three-way control and in the list. | DLOG_2026-11-04.md
+- 2026-11-04 | Remember login for seven days | Add a login checkbox that keeps the session for seven days. | DLOG_2026-11-04.md
+- 2026-11-03 | Software readiness gate | Require a software owner to confirm ready before a software-related requirement enters testing, and reserve a read-only software Jira snapshot. | DLOG_2026-11-03.md
+- 2026-11-03 | Repair unfinished workflows | Restore deleted template statuses and a path to Done when a workflow draft is blocked by errors. | DLOG_2026-11-03.md
+- 2026-11-03 | Show every status on the board | Each status gets its own board column, including statuses added later and existing projects. | DLOG_2026-11-03.md
+- 2026-11-02 | docs: migrate logs to dlog/ and errors/ indexes, refactor AGENTS.md | Logs moved to dlog/ and errors/ with indexes; AGENTS.md refactored to the 011 structure. | DLOG_2026-11-02.md
+- 2026-11-02 | Clean up the schedule suggestion dialog | make the reschedule suggestion dialog readable from both the project summary and the timeline. | DLOG_2026-11-02.md
+- 2026-10-27 | Release notes sort with notifications | stop pinning the release notes above every notification. | DLOG_2026-10-27.md
+- 2026-10-27 | Keep release notes in the notification menu | leave the current release notes in the notification menu after the first auto-open is closed. | DLOG_2026-10-27.md
+- 2026-10-27 | Release notes in the notification menu | drop the top-bar release popup and show the notes in the notification menu on first open. | DLOG_2026-10-27.md
+- 2026-10-27 | Release sheet border cascade fix | remove the black frame that persisted around the release sheet after the focus-ring fix. | DLOG_2026-10-27.md
+- 2026-10-27 | Release notes focus ring | remove the black focus frame around the release sheet and label the control What's new. | DLOG_2026-10-27.md
+- 2026-10-27 | Release notes in the top bar | show a short announcement after an update, and keep it available from the top bar. | DLOG_2026-10-27.md
+- 2026-10-27 | Workflow drafts can add statuses | let a plain-language workflow edit create a status the project does not have yet. | DLOG_2026-10-27.md
+- 2026-10-27 | Workflow repair suggestions | let the workflow editor turn current warnings and existing statuses into selectable repairs. | DLOG_2026-10-27.md
+- 2026-10-27 | Global CN/EN localization pass | keep greetings forced English while other UI text follows the active language. | DLOG_2026-10-27.md
+- 2026-10-27 | Invalid input highlighting | highlight illegal or incomplete form fields instead of only disabling submit. | DLOG_2026-10-27.md
+- 2026-10-27 | Workspace transition and manager localization | make home-workspace switching feel intentional and remove raw English risk values from the Chinese manager workspace. | DLOG_2026-10-27.md
+- 2026-10-27 | Project risk brief | show a concise current-project risk assessment beside the target warning. | DLOG_2026-10-27.md
+- 2026-10-27 | Directed issue-link builder | make blocking direction clear when users create and review issue links. | DLOG_2026-10-27.md
+- 2026-10-27 | Hardware PM global risk and sequence control | Added explicit project planning dates and issue planned starts. | DLOG_2026-10-27.md
